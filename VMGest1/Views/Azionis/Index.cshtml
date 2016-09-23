@@ -1,0 +1,107 @@
+﻿@model IEnumerable<VMGest1.Models.Azioni>
+
+@{
+    ViewBag.Title = "Index";
+}
+@*Verifico se la persona ha già delle schede*@
+@if (ViewBag.AzionisCount == 0)
+{
+    foreach (var item in ViewBag.Utente)
+    {
+        <h2>
+
+            <span>@item.Cognome @item.Nome</span>
+            <a href="@Url.Action("Create", "Azionis", new { id = Request.QueryString["ut"], ut = Request.QueryString["ut"], tipo = "Anamnesi" })" data-toggle-t="tooltip" data-placement="bottom" title="Aggiungi anamnesi" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Anamnesi</a>
+            <a href="@Url.Action("Create", "Azionis", new { id = Request.QueryString["ut"], ut = Request.QueryString["ut"], tipo = "Valutazione" })" data-toggle-t="tooltip" data-placement="bottom" title="Aggiungi valutazione" class="btn btn-info"><span class="glyphicon glyphicon-plus"></span> Valutazione</a>
+            <a href="@Url.Action("Create", "Azionis", new { id = Request.QueryString["ut"], ut = Request.QueryString["ut"], tipo = "Trattamento" })" data-toggle-t="tooltip" data-placement="bottom" title="Aggiungi trattamento" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Trattamento</a>
+        </h2><hr />
+
+    }
+    <h3 class="text-danger">Nessuna azione registrata</h3>
+    }
+    @*@Se non ha schede procedo*@
+
+    @foreach (var group in Model.GroupBy(item => item.Anagrafica.Cognome + " " + item.Anagrafica.Nome))
+        {
+//Intestazione
+        <h2>
+            @Html.Encode(group.Key)
+
+            <a href="@Url.Action("Create", "Azionis", new { id = Request.QueryString["ut"], ut = Request.QueryString["ut"], tipo = "Anamnesi" })" data-toggle-t="tooltip" data-placement="bottom" title="Aggiungi anamnesi" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Anamnesi</a>
+            <a href="@Url.Action("Create", "Azionis", new { id = Request.QueryString["ut"], ut = Request.QueryString["ut"], tipo = "Valutazione" })" data-toggle-t="tooltip" data-placement="bottom" title="Aggiungi valutazione" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span> Valutazione</a>
+            <a href="@Url.Action("Create", "Azionis", new { id = Request.QueryString["ut"], ut = Request.QueryString["ut"], tipo = "Trattamento" })" data-toggle-t="tooltip" data-placement="bottom" title="Aggiungi trattamento" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Trattamento</a>
+
+        </h2>
+        <hr />
+ //Fine intestazine
+//Azioni
+        <table class="table table-striped">
+            @foreach (var item in group)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tipo)
+                    </td>
+                    <td>
+                        @item.Data.ToString("ddd, dd MMM yyyy")
+                    </td>
+                    <td>
+                        <div class="alert alert-info">
+                            @Html.Raw(item.Descrizione)
+                        </div>
+
+                        @*Dettaglio azioni Sezione nascosta*@
+                        <div class="collapse" id="@item.Azioni_Id">
+                            <div class="list-group">
+                                @Html.ActionLink("Nuovo", "Create", "AzioniDetts", new { id = @item.Azioni_Id, ut = Request.QueryString["ut"] }, new { @class = "btn btn-xs btn-primary" })
+                                @foreach (var itemdett in item.AzioniDetts)
+                                {
+                                    <span class="list-group-item">
+                                        <a href="@Url.Action("Delete", "AzioniDetts", new { id = @itemdett.AzioniDett_Id, ut = Request.QueryString["ut"], az = @itemdett.Azioni_Id })" data-toggle-t="tooltip" title="Elimina dettaglio" class="glyphicon glyphicon-remove text-danger"></a>
+                                        <a href="@Url.Action("Edit", "AzioniDetts", new { id = @itemdett.AzioniDett_Id, ut = Request.QueryString["ut"], az = @itemdett.Azioni_Id})" data-toggle-t="tooltip" title="Modifica dettaglio">
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                            <span class="text-primary"><strong><em>@itemdett.Aree.Descrizione: </em></strong></span>
+                                            @itemdett.Descrizione
+                                        </a>
+                                    </span>
+
+                                }
+                            </div>
+                        </div>
+                    </td>
+                    @*Fine dettaglio azioni Sezione nascosta*@
+                    <td>
+                        <h4>
+                            @*Abilito il tasto elimina se non ci sono dettagli*@
+                            @{
+                                int tot = item.AzioniDetts.Count();
+                                <a role="button" id="@item.Azioni_Id" data-toggle="collapse" title="Vedi dettaglio" href="#@item.Azioni_Id" aria-expanded="false" aria-controls="@item.Azioni_Id">
+                                    <span class="h6">@tot</span><span id="@item.Azioni_Id" class="glyphicon glyphicon-arrow-down"></span>
+                                </a>
+                                <a href = "@Url.Action("Edit", "Azionis", new { id = item.Azioni_Id, ut = Request.QueryString["ut"] })" data-toggle-t = "tooltip" title = "Modifica azione" class="glyphicon glyphicon-pencil"></a>
+                                if (tot == 0)
+                                {
+                                    <a href = "@Url.Action("Delete", "Azionis", new { id = item.Azioni_Id, ut = Request.QueryString["ut"] })" data-toggle-t="tooltip" title="Calcella azione" class="glyphicon glyphicon-remove text-danger"></a>
+                                }
+
+                            }
+                        </h4>
+                    </td>
+                </tr>
+            }
+        </table>
+//Fine azioni
+        }
+
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script type="text/javascript">
+
+            $(function ()
+            {
+                $('[data-toggle-t="tooltip"]').tooltip()
+            })
+      </script>
+   }
