@@ -10,10 +10,10 @@
         <h4>@item.Cognome @item.Nome <span class="h3">@item.Email</span></h4>
     }
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -28,7 +28,7 @@
                     }
 
                 }
-                @Html.TextBoxFor(model => model.Data, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker" })
+                @Html.TextBoxFor(model => model.Data, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker", @Value = DateTime.Now.ToShortDateString()})
                 @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })
                 @{ Html.EnableClientValidation(true);}
             </div>
@@ -41,22 +41,70 @@
                 @Html.ValidationMessageFor(model => model.Descrizione, "", new { @class = "text-danger" })
             </div>
         </div>
+        @if (Request.QueryString["Tipo"] == "Anamnesi")
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Diagnostica, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Diagnostica, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Diagnostica, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Traumi, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Traumi, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Traumi, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Chirurgia, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Chirurgia, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Chirurgia, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Viscerale, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Viscerale, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Viscerale, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Dentale, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Dentale, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Dentale, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Visiva, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Visiva, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Visiva, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        }
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Crea" class="btn btn-primary" />
+                @Html.ActionLink("Annulla", "Index", new { id = Request.QueryString["ut"], ut = Request.QueryString["ut"] }, new {@class="btn btn-danger" })
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index", new { id = Request.QueryString["ut"], ut = Request.QueryString["ut"] })
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-        $('.datepicker').datepicker({dateFormat: "dd/mm/yyyy", autoclose: true, todayHighlight: true, todayBtn: true });
+
+            //$('.datepicker').datepicker({ dateFormat: "dd/MM/yyyy", autoclose: true, todayHighlight: true, todayBtn: true });
 
     </script>
 

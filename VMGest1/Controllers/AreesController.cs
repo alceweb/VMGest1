@@ -18,6 +18,8 @@ namespace VMGest1.Controllers
         // GET: Arees
         public ActionResult Index()
         {
+            var areeCount = db.Arees.Count();
+            ViewBag.AreeCount = areeCount;
             return View(db.Arees.ToList());
         }
 

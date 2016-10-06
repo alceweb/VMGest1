@@ -40,7 +40,41 @@ namespace VMGest1.Controllers
         // GET: AzioniDetts/Create
         public ActionResult Create(int id)
         {
-            ViewBag.Area_Id = new SelectList(db.Arees, "Area_Id", "Descrizione");
+            int ut = Convert.ToInt32(Request.QueryString["ut"]);
+            var utente = db.Anagraficas.Where(u => u.Anagrafica_Id == ut);
+            ViewBag.Utente = utente;
+            string area = Request.QueryString["tipo"];
+            if (area == "Trattamento")
+            {
+             var aree = db.Arees.Where(a=>a.Trattamento==true).OrderBy(a=>a.Descrizione);
+                ViewBag.AreeCount = aree.Count();
+                ViewBag.Area_Id = new SelectList(aree, "Area_Id", "Descrizione");
+            }
+            else
+            {
+                if (area == "Valutazione")
+                {
+                    var aree = db.Arees.Where(a => a.Valutazione == true).OrderBy(a => a.Descrizione);
+                    ViewBag.AreeCount = aree.Count();
+                    ViewBag.Area_Id = new SelectList(aree, "Area_Id", "Descrizione");
+                }
+                else
+                {
+                    if (area == "Anamnesi")
+                    {
+                        var aree = db.Arees.Where(a => a.Anamnesi == true).OrderBy(a => a.Descrizione);
+                        ViewBag.AreeCount = aree.Count();
+                        ViewBag.Area_Id = new SelectList(aree, "Area_Id", "Descrizione");
+                    }
+                    else
+                    {
+                            var aree = db.Arees.OrderBy(a => a.Descrizione);
+                        ViewBag.AreeCount = aree.Count();
+                        ViewBag.Area_Id = new SelectList(aree, "Area_Id", "Descrizione");
+                   }
+
+                }
+            }
             ViewBag.Azione = id;
             return View();
         }
@@ -57,7 +91,7 @@ namespace VMGest1.Controllers
                 azioniDett.Azioni_Id = id;
                 db.AzioniDetts.Add(azioniDett);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Azionis", new { id = id, ut = Request.QueryString["ut"] });
+                return RedirectToAction("Edit", "Azionis", new { id = id, ut = Request.QueryString["ut"] });
             }
 
             ViewBag.Area_Id = new SelectList(db.Arees, "Area_Id", "Descrizione", azioniDett.Area_Id);
@@ -76,7 +110,38 @@ namespace VMGest1.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Area_Id = new SelectList(db.Arees, "Area_Id", "Descrizione", azioniDett.Area_Id);
+            string area = Request.QueryString["tipo"];
+            if (area == "Trattamento")
+            {
+                var aree = db.Arees.Where(a => a.Trattamento == true).OrderBy(a => a.Descrizione);
+                ViewBag.AreeCount = aree.Count();
+                ViewBag.Area_Id = new SelectList(aree, "Area_Id", "Descrizione", azioniDett.Area_Id);
+            }
+            else
+            {
+                if (area == "Valutazione")
+                {
+                    var aree = db.Arees.Where(a => a.Valutazione == true).OrderBy(a => a.Descrizione);
+                    ViewBag.AreeCount = aree.Count();
+                    ViewBag.Area_Id = new SelectList(aree, "Area_Id", "Descrizione", azioniDett.Area_Id);
+                }
+                else
+                {
+                    if (area == "Anamnesi")
+                    {
+                        var aree = db.Arees.Where(a => a.Anamnesi == true).OrderBy(a => a.Descrizione);
+                        ViewBag.AreeCount = aree.Count();
+                        ViewBag.Area_Id = new SelectList(aree, "Area_Id", "Descrizione", azioniDett.Area_Id);
+                    }
+                    else
+                    {
+                        var aree = db.Arees.OrderBy(a => a.Descrizione);
+                        ViewBag.AreeCount = aree.Count();
+                        ViewBag.Area_Id = new SelectList(aree, "Area_Id", "Descrizione", azioniDett.Area_Id);
+                    }
+
+                }
+            }
             return View(azioniDett);
         }
 

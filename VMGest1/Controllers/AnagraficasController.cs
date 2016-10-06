@@ -20,7 +20,7 @@ namespace VMGest1.Controllers
         {
             var anagraficaCount = db.Anagraficas.Count();
             ViewBag.AnagraficaCount = anagraficaCount;
-            return View(db.Anagraficas.ToList());
+            return View(db.Anagraficas.OrderBy(c=>c.Cognome).ToList());
         }
 
 
@@ -50,7 +50,7 @@ namespace VMGest1.Controllers
         // Per ulteriori dettagli, vedere http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Anagrafica_Id,Nome,Cognome,Indirizzo,CAP,Città,Telefono,Cellulare,Email")] Anagrafica anagrafica)
+        public ActionResult Create([Bind(Include = "Anagrafica_Id,Nome,Cognome,Indirizzo,CAP,Città,Telefono,Cellulare,Email,DataNascita,LuogoNascita,CodiceFiscale")] Anagrafica anagrafica)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace VMGest1.Controllers
         // Per ulteriori dettagli, vedere http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Anagrafica_Id,Nome,Cognome,Indirizzo,CAP,Città,Telefono,Cellulare,Email")] Anagrafica anagrafica)
+        public ActionResult Edit([Bind(Include = "Anagrafica_Id,Nome,Cognome,Indirizzo,CAP,Città,Telefono,Cellulare,Email,DataNascita,LuogoNascita,CodiceFiscale")] Anagrafica anagrafica)
         {
             if (ModelState.IsValid)
             {
@@ -101,6 +101,8 @@ namespace VMGest1.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Anagrafica anagrafica = db.Anagraficas.Find(id);
+            var azioniCount = db.Azionis.Where(u => u.Anagrafica_Id == id).Count();
+            ViewBag.AzioniCount = azioniCount;
             if (anagrafica == null)
             {
                 return HttpNotFound();

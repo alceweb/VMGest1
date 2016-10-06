@@ -21,9 +21,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Area_Id, "Area_Id", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("Area_Id", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Area_Id, "", new { @class = "text-danger" })
-            </div>
+                    @Html.ListBox("Area_Id", null, htmlAttributes: new { @class = "form-control", size=ViewBag.AreeCount })
+                    @Html.ValidationMessageFor(model => model.Area_Id, "", new { @class = "text-danger" })
+</div>
         </div>
 
         <div class="form-group">
@@ -37,14 +37,11 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
+                @Html.ActionLink("Annulla", "Index", "Azionis", new { id = ViewBag.Azione, ut = Request.QueryString["ut"] }, new { @class = "btn btn-danger" })
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index", "Azionis", new { id = ViewBag.Azione, ut = Request.QueryString["ut"] }, null)
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

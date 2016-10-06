@@ -22,4 +22,20 @@ namespace VMGest1.Models
         public string Descrizione { get; set; }
         public int Azioni_Azioni_Id { get; set; }
     }
+
+    public class EditTmViewModel
+    {
+        [Key]
+        public int Azioni_Id { get; set; }
+        public string Tmt { get; set; }
+
+    }
+
+    public class EditEndfeelViewModel
+    {
+        [Key]
+        public int Azioni_Id { get; set; }
+        public string Endfeel { get; set; }
+
+    }
 }

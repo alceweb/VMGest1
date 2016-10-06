@@ -4,11 +4,11 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
+<h2>Aree indagine</h2>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href="@Url.Action("Create", "Arees")" class="btn btn-primary"><span class="badge">@ViewBag.AreeCount</span> Nuovo</a>
 </p>
+
 <table class="table">
     <tr>
         <th>

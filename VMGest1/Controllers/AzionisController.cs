@@ -46,8 +46,6 @@ namespace VMGest1.Controllers
         {
             var utente = db.Anagraficas.Where(u => u.Anagrafica_Id == id);
             ViewBag.Utente = utente;
-            var area = db.Arees;
-            ViewBag.Area_Id = new SelectList(area, "Area_Id", "Descrizione");
             return View();
         }
 
@@ -56,15 +54,24 @@ namespace VMGest1.Controllers
         // Per ulteriori dettagli, vedere http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Create(int id, [Bind(Include = "Azioni_Id,Tipo,Anagrafica_Id,Data,Descrizione")] Azioni azioni, Aree aree)
+        public ActionResult Create(int id, [Bind(Include = "Azioni_Id,Tipo,Anagrafica_Id,Data,Descrizione,Tmt,Endfeel,Diagnostica,Traumi,Chirurgia,Viscerale,Dentale,Visiva")] Azioni azioni, Aree aree)
         {
             if (ModelState.IsValid)
             {
                 azioni.Anagrafica_Id = id;
-                azioni.Tipo = Request.QueryString["tipo"];
+                string tipo = Request.QueryString["tipo"];
+                azioni.Tipo = tipo;
                 db.Azionis.Add(azioni);
                 db.SaveChanges();
-                return RedirectToAction("Index", new { id = id, ut = id });
+                if(azioni.Tipo == "Anamnesi")
+                {
+                    return RedirectToAction("Index", new { id = azioni.Azioni_Id, ut = id });
+                }
+                else
+                {
+                return RedirectToAction("Edit", new { id = azioni.Azioni_Id, ut = id, tipo=tipo });
+
+                }
             }
 
             ViewBag.Anagrafica_Id = new SelectList(db.Anagraficas, "Anagrafica_Id", "Nome", azioni.Anagrafica_Id);
@@ -75,6 +82,9 @@ namespace VMGest1.Controllers
         // GET: Azionis/Edit/5
         public ActionResult Edit(int? id)
         {
+            int ut = Convert.ToInt32(Request.QueryString["ut"]);
+            var utente = db.Anagraficas.Where(u => u.Anagrafica_Id == ut);
+            ViewBag.Utente = utente;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -93,7 +103,7 @@ namespace VMGest1.Controllers
         // Per ulteriori dettagli, vedere http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit(int id,[Bind(Include = "Azioni_Id,Tipo,Anagrafica_Id,Data,Descrizione")] Azioni azioni)
+        public ActionResult Edit(int id,[Bind(Include = "Azioni_Id,Tipo,Anagrafica_Id,Data,Descrizione,Tmt,Endfeel,Diagnostica,Traumi,Chirurgia,Viscerale,Dentale,Visiva")] Azioni azioni)
         {
             if (ModelState.IsValid)
             {
@@ -103,6 +113,80 @@ namespace VMGest1.Controllers
             }
             return View(azioni);
         }
+
+        // GET: Azionis/Edit/5
+        public ActionResult EditTmt(int? id)
+        {
+            int ut = Convert.ToInt32(Request.QueryString["ut"]);
+            var utente = db.Anagraficas.Where(u => u.Anagrafica_Id == ut);
+            ViewBag.Utente = utente;
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Azioni azioni = db.Azionis.Find(id);
+            if (azioni == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Anagrafica_Id = new SelectList(db.Anagraficas, "Anagrafica_Id", "Nome", azioni.Anagrafica_Id);
+            return View(azioni);
+        }
+
+        // POST: Azionis/Edit/5
+        // Per proteggere da attacchi di overposting, abilitare le proprietà a cui eseguire il binding. 
+        // Per ulteriori dettagli, vedere http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult EditTmt(int id, [Bind(Include = "Azioni_Id,Tmt")] EditTmViewModel azioni)
+        {
+            if (ModelState.IsValid)
+            {
+                var az = db.Azionis.Find(azioni.Azioni_Id);
+                az.Tmt = azioni.Tmt;
+                db.SaveChanges();
+                return RedirectToAction("Index", new { id = id, ut = Request.QueryString["ut"] });
+            }
+            return View(azioni);
+        }
+
+        // GET: Azionis/Edit/5
+        public ActionResult EditEndfeel(int? id)
+        {
+            int ut = Convert.ToInt32(Request.QueryString["ut"]);
+            var utente = db.Anagraficas.Where(u => u.Anagrafica_Id == ut);
+            ViewBag.Utente = utente;
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Azioni azioni = db.Azionis.Find(id);
+            if (azioni == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Anagrafica_Id = new SelectList(db.Anagraficas, "Anagrafica_Id", "Nome", azioni.Anagrafica_Id);
+            return View(azioni);
+        }
+
+        // POST: Azionis/Edit/5
+        // Per proteggere da attacchi di overposting, abilitare le proprietà a cui eseguire il binding. 
+        // Per ulteriori dettagli, vedere http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult EditEndfeel(int id, [Bind(Include = "Azioni_Id,Endfeel")] EditEndfeelViewModel azioni)
+        {
+            if (ModelState.IsValid)
+            {
+                var az = db.Azionis.Find(azioni.Azioni_Id);
+                az.Endfeel = azioni.Endfeel;
+                db.SaveChanges();
+                return RedirectToAction("Index", new { id = id, ut = Request.QueryString["ut"] });
+            }
+            return View(azioni);
+        }
+
+
 
         // GET: Azionis/Delete/5
         public ActionResult Delete(int? id)

@@ -33,13 +33,10 @@ namespace VMGest1.Models
         [Required]
         [Display(Name = "Cognome")]
         public string Cognome { get; set; }
-        [Required]
         [Display(Name = "Indirizzo")]
         public string Indirizzo { get; set; }
-        [Required]
         [Display(Name = "CAP")]
         public string CAP { get; set; }
-        [Required]
         [Display(Name = "Città")]
         public string Città { get; set; }
         [Display(Name = "Telefono")]
@@ -49,6 +46,14 @@ namespace VMGest1.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+        [Display(Name ="Codice fiscale")]
+        public string CodiceFiscale { get; set; }
+        [Required]
+        [Display(Name ="Data di nascita")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime DataNascita { get; set; }
+        [Display(Name ="Luogo di nascita")]
+        public string LuogoNascita { get; set; }
 
         public virtual ICollection<Azioni> Azionis { get; set; }
     }
@@ -62,10 +67,25 @@ namespace VMGest1.Models
         public int Anagrafica_Id { get; set; }
         public virtual Anagrafica Anagrafica { get; set; }
         [Display(Name = "Data azione")]
+        [DisplayFormat(DataFormatString ="{0:dd/MM/yyyy}", ApplyFormatInEditMode =true)]
         public DateTime Data { get; set; }
         [DataType(DataType.MultilineText)]
         [Display(Name = "Descrizione azione")]
         public string Descrizione { get; set; }
+        public string Tmt { get; set; }
+        public string Endfeel { get; set; }
+        [Display(Name="Es diagnostica")]
+        public string Diagnostica { get; set; }
+        [Display(Name ="Traumi")]
+        public string Traumi { get; set; }
+        [Display(Name ="Int chirurgici")]
+        public string Chirurgia { get; set; }
+        [Display(Name ="Viscerale")]
+        public string Viscerale { get; set; }
+        [Display(Name ="Area dentale")]
+        public string Dentale { get; set; }
+        [Display(Name ="Area visiva")]
+        public string Visiva { get; set; }
 
         public virtual ICollection<AzioniDett> AzioniDetts { get; set; }
     }

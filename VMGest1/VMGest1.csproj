@@ -185,6 +185,26 @@
     <Compile Include="Migrations\201609221651007_anagrafica.Designer.cs">
       <DependentUpon>201609221651007_anagrafica.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609261010176_endfeel.cs" />
+    <Compile Include="Migrations\201609261010176_endfeel.Designer.cs">
+      <DependentUpon>201609261010176_endfeel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609261319415_cf.cs" />
+    <Compile Include="Migrations\201609261319415_cf.Designer.cs">
+      <DependentUpon>201609261319415_cf.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609270704381_natoa.cs" />
+    <Compile Include="Migrations\201609270704381_natoa.Designer.cs">
+      <DependentUpon>201609270704381_natoa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609281319514_anamensi.cs" />
+    <Compile Include="Migrations\201609281319514_anamensi.Designer.cs">
+      <DependentUpon>201609281319514_anamensi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609281456311_capnull.cs" />
+    <Compile Include="Migrations\201609281456311_capnull.Designer.cs">
+      <DependentUpon>201609281456311_capnull.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\GestViewModels.cs" />
@@ -196,6 +216,8 @@
   <ItemGroup>
     <Content Include="Content\bootstrap-datepicker3.css" />
     <Content Include="Content\bootstrap-datepicker3.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
@@ -282,7 +304,12 @@
     <Content Include="Content\bootstrap\bootstrap.less" />
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
-    <None Include="Properties\PublishProfiles\vmgest1 - Web Deploy.pubxml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\vmgest1.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\ckeditor.js" />
@@ -640,11 +667,14 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.lt.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.uk.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -703,14 +733,13 @@
     <Content Include="Views\AzioniDetts\Details.cshtml" />
     <Content Include="Views\AzioniDetts\Edit.cshtml" />
     <Content Include="Views\AzioniDetts\Index.cshtml" />
+    <Content Include="Views\Azionis\EditTmt.cshtml" />
+    <Content Include="Views\Azionis\EditEndfeel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
@@ -721,6 +750,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609221651007_anagrafica.resx">
       <DependentUpon>201609221651007_anagrafica.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609261010176_endfeel.resx">
+      <DependentUpon>201609261010176_endfeel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609261319415_cf.resx">
+      <DependentUpon>201609261319415_cf.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609270704381_natoa.resx">
+      <DependentUpon>201609270704381_natoa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609281319514_anamensi.resx">
+      <DependentUpon>201609281319514_anamensi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609281456311_capnull.resx">
+      <DependentUpon>201609281456311_capnull.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

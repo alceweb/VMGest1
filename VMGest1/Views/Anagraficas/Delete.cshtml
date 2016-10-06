@@ -81,8 +81,15 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @if (@ViewBag.AzioniCount == 0)
+            {
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            }
+            else
+            {
+                <h3 ><span class="label label-danger">Non puoi cancellare questo utente perchè ha @ViewBag.AzioniCount azioni attive. Cancella tutti i riferimenti e riprova</span></h3>
+            }
+            @Html.ActionLink("Torna all'anagrafica", "Index", null, new { @class = "btn btn-primary" })
         </div>
     }
 </div>

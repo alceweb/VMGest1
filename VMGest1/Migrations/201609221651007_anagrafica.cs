@@ -15,7 +15,7 @@ namespace VMGest1.Migrations
                         Nome = c.String(nullable: false),
                         Cognome = c.String(nullable: false),
                         Indirizzo = c.String(nullable: false),
-                        CAP = c.String(nullable: false),
+                        CAP = c.String(),
                         Città = c.String(nullable: false),
                         Telefono = c.String(),
                         Cellulare = c.String(),

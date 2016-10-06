@@ -4,25 +4,19 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Anagrafica</h2>
 
 <p>
     <a href="@Url.Action("Create", "Anagraficas")" class="btn btn-primary"><span class="badge">@ViewBag.AnagraficaCount</span> Nuovo</a>
 </p>
-<table class="table">
+<table class="table table-hover">
     <tr>
         <th></th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nome)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.Cognome)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Indirizzo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CAP)
+            @Html.DisplayNameFor(model => model.Nome)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Città)
@@ -39,40 +33,43 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>@Html.ActionLink("A", "Index", "Azionis", new { id = item.Anagrafica_Id, ut = item.Anagrafica_Id }, new { @class = "glyphicon glyphicon-folder-open", title = "Anamnesi" })</td>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.ActionLink(" ", "Index", "Azionis", new { id = item.Anagrafica_Id, ut = item.Anagrafica_Id }, new { @class = "glyphicon glyphicon-folder-open", title = "Anamnesi" })</td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cognome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Indirizzo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CAP)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Città)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Telefono)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cellulare)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Anagrafica_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Anagrafica_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Anagrafica_Id })
-        </td>
-    </tr>
-}
+            <td>
+                @Html.DisplayFor(modelItem => item.Cognome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Città)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cellulare)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <a href="@Url.Action("Edit", "Anagraficas", new { id = item.Anagrafica_Id })" class="glyphicon glyphicon-pencil" data-toggle-t="tooltip" title="Modifica"></a> <a href="@Url.Action("Details", "Anagraficas", new { id = item.Anagrafica_Id })" class="glyphicon glyphicon-list-alt" data-toggle-t="tooltip" title="Dettagli"></a> <a href="@Url.Action("Delete", "Anagraficas", new { id = item.Anagrafica_Id })" class="glyphicon glyphicon-remove text-danger" data-toggle-t="tooltip" title="Elimina"></a>
+            </td>
+        </tr>
+    }
 
 </table>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+
+            $(function () {
+                $('[data-toggle-t="tooltip"]').tooltip()
+            })
+</script>
+
+}
