@@ -40,7 +40,7 @@
             {
                 <tr>
                     <td>
-                        <a href="@Url.Action("Edit", "Azionis", new { id = item.Azioni_Id, ut = Request.QueryString["ut"] })" data-toggle-t="tooltip" title="Modifica azione">
+                        <a href="@Url.Action("Details", "Azionis", new { id = item.Azioni_Id, ut = Request.QueryString["ut"], tipo = item.Tipo })" data-toggle-t="tooltip" title="Modifica azione">
                             @{
                                 string tipo = "alert alert-info";}
                             @{

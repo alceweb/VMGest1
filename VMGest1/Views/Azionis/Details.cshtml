@@ -4,47 +4,131 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+@foreach (var item in ViewBag.Utente)
+{
+    <h2>
+        <span>@item.Cognome @item.Nome</span>
+    </h2><hr />
 
-<div>
-    <h4>Azioni</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Anagrafica.Nome)
-        </dt>
+}
 
-        <dd>
-            @Html.DisplayFor(model => model.Anagrafica.Nome)
-        </dd>
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Azioni_Id)
+    @Html.HiddenFor(model => model.Anagrafica_Id)
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Tipo)
-        </dt>
+    <div class="form-group">
+        <div class="col-md-2"></div>
+        @{
+            string tipo = "alert alert-info";}
+        @{
 
-        <dd>
-            @Html.DisplayFor(model => model.Tipo)
-        </dd>
+            switch (Model.Tipo)
+            {
+                case "Anamnesi":
+                    tipo = "alert alert-info";
+                    break;
+                case "Valutazione":
+                    tipo = "alert alert-danger";
+                    break;
+                case "Trattamento":
+                    tipo = "alert alert-success";
+                    break;
+                default:
+                    tipo = "alert alert-warning";
+                    break;
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Data)
-        </dt>
+            }
+        }
+        <div class="@tipo col-md-10">
+            <div class="badge">
+                @Html.DisplayFor(modelItem => Model.Tipo) -
+                @Model.Data.ToString("dd-MMM-yyyy")
+            </div>
+            <div >
+                @Html.Raw(Model.Descrizione)
+            </div>
+        </div>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Data)
-        </dd>
+    @if (Model.Tipo == "Anamnesi")
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.Diagnostica, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <span class="thumbnail"> @Model.Diagnostica</span>
+            </div>
+            @Html.LabelFor(model => model.Traumi, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <span class="thumbnail"> @Model.Traumi</span>
+            </div>
+        </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Chirurgia, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    <span class="thumbnail"> @Model.Chirurgia</span>
+                </div>
+                @Html.LabelFor(model => model.Viscerale, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    <span class="thumbnail"> @Model.Viscerale</span>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Dentale, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    <span class="thumbnail"> @Model.Dentale</span>
+                </div>
+                @Html.LabelFor(model => model.Visiva, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    <span class="thumbnail"> @Model.Visiva</span>
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Descrizione)
-        </dt>
+                </div>
+                <div class="col-md-10">
 
-        <dd>
-            @Html.Raw(Model.Descrizione)
-        </dd>
-
-    </dl>
+                        @Html.ActionLink("Modifica", "Edit", "Azionis", new { id = Model.Azioni_Id, ut = Request.QueryString["ut"], tipo = Model.Tipo }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Fatto", "Index", "Azionis", new { id = ViewBag.Azione, ut = Request.QueryString["ut"] }, new { @class = "btn btn-success" })
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Azioni_Id, ut = Request.QueryString["ut"] }) |
-    @Html.ActionLink("Back to List", "Index", new { id = Model.Azioni_Id, ut = Request.QueryString["ut"] })
-</p>
+            </div>
+    }
+    else
+    {
+        <div class="form-group">
+            <label class="control-label col-md-2">Area indagine</label>
+            <div class="col-md-10 list-group">
+                @Html.ActionLink("Nuovo - azione area indagine", "Create", "AzioniDetts", new { id = @Model.Azioni_Id, ut = Request.QueryString["ut"], tipo = Model.Tipo }, new { @class = "btn btn-xs btn-primary" })
+                @Html.ActionLink("Modifica descrizione", "Edit", "Azionis", new { id = Model.Azioni_Id, ut = Request.QueryString["ut"], tipo = Model.Tipo }, new { @class = "btn btn-xs btn-danger" })
+                @Html.ActionLink("Fatto", "Index", "Azionis", new { id = ViewBag.Azione, ut = Request.QueryString["ut"] }, new { @class = "btn btn-xs btn-success" })
+                @foreach (var itemdett in Model.AzioniDetts)
+                {
+                    <span class="list-group-item">
+                        <a href="@Url.Action("Delete", "AzioniDetts", new { id = @itemdett.AzioniDett_Id, ut = Request.QueryString["ut"], az = @itemdett.Azioni_Id })" data-toggle-t="tooltip" title="Elimina dettaglio" class="glyphicon glyphicon-remove text-danger"></a>
+                        <a href="@Url.Action("Edit", "AzioniDetts", new { id = @itemdett.AzioniDett_Id, ut = Request.QueryString["ut"], az = @itemdett.Azioni_Id, tipo=Model.Tipo})" data-toggle-t="tooltip" title="Modifica dettaglio">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            @if (@itemdett.Aree.Descrizione == "Endfeel" | @itemdett.Aree.Descrizione == "TMT")
+                            {
+                                <span class="text-danger"><strong><em>@itemdett.Aree.Descrizione: </em>@itemdett.Descrizione</strong></span>
+
+                            }
+                            else
+                            {
+                                <span class="text-primary"><strong><em>@itemdett.Aree.Descrizione: </em></strong></span>
+                                        @itemdett.Descrizione
+
+                            }
+                        </a>
+                    </span>
+
+                }
+            </div>
+        </div>
+    }
+</div>
+
+
+

@@ -24,15 +24,12 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Tipo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-4">
                 @Html.EditorFor(model => model.Tipo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Tipo, "", new { @class = "text-danger" })
             </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.Data, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-4">
                 @*Incompatibilità jquery validation date per Chrome e FireFox*@
                 @{ if (Request.Browser.Browser != "IE")
                     {
@@ -45,7 +42,6 @@
                 @{ Html.EnableClientValidation(true);}
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Descrizione, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -58,64 +54,69 @@
         {
             <div class="form-group">
                 @Html.LabelFor(model => model.Diagnostica, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.Diagnostica, new { @class = "form-control" })
+                <div class="col-md-4">
+                    @Html.TextAreaFor(model => model.Diagnostica, new { @class = "form-control"})
                     @Html.ValidationMessageFor(model => model.Diagnostica, "", new { @class = "text-danger" })
                 </div>
-            </div>
-            <div class="form-group">
                 @Html.LabelFor(model => model.Traumi, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.Traumi, new { @class = "form-control" })
+                <div class="col-md-4">
+                    @Html.TextAreaFor(model => model.Traumi, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Traumi, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.Chirurgia, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.Chirurgia, new { @class = "form-control" })
+                <div class="col-md-4">
+                    @Html.TextAreaFor(model => model.Chirurgia, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Chirurgia, "", new { @class = "text-danger" })
                 </div>
-            </div>
-            <div class="form-group">
                 @Html.LabelFor(model => model.Viscerale, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.Viscerale, new { @class = "form-control" })
+                <div class="col-md-4">
+                    @Html.TextAreaFor(model => model.Viscerale, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Viscerale, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.Dentale, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.Dentale, new { @class = "form-control" })
+                <div class="col-md-4">
+                    @Html.TextAreaFor(model => model.Dentale, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Dentale, "", new { @class = "text-danger" })
                 </div>
-            </div>
-            <div class="form-group">
                 @Html.LabelFor(model => model.Visiva, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.Visiva, new { @class = "form-control" })
+                <div class="col-md-4">
+                    @Html.TextAreaFor(model => model.Visiva, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Visiva, "", new { @class = "text-danger" })
                 </div>
             </div>
+            <div class="form-group">
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
 
+                </div>
+                <div class="col-md-10">
+                    <input type="submit" value="Fatto" class="btn btn-success" />
+                    @Html.ActionLink("Annulla", "Index", "Azionis", new { id = ViewBag.Azione, ut = Request.QueryString["ut"] }, new { @class = "btn btn-danger" })
+                </div>
+            </div>
         }
         else
         {
-            <div class="form-group">
-                <label class="control-label col-md-2">Area indagine</label>
-                @Html.ActionLink("Nuovo - azione area indagine", "Create", "AzioniDetts", new { id = @Model.Azioni_Id, ut = Request.QueryString["ut"], tipo=Request.QueryString["tipo"] }, new { @class = "btn btn-xs btn-primary" })
+                <div class="form-group">
+                    <label class="control-label col-md-2">Area indagine</label>
                     <div class="col-md-10 list-group">
+                        @Html.ActionLink("Nuovo - azione area indagine", "Create", "AzioniDetts", new { id = @Model.Azioni_Id, ut = Request.QueryString["ut"], tipo = Model.Tipo }, new { @class = "btn btn-xs btn-primary" })
+                        <input type="submit" value="Fatto" class="btn btn-xs btn-success" />
                         @foreach (var itemdett in Model.AzioniDetts)
                     {
                             <span class="list-group-item">
                                 <a href="@Url.Action("Delete", "AzioniDetts", new { id = @itemdett.AzioniDett_Id, ut = Request.QueryString["ut"], az = @itemdett.Azioni_Id })" data-toggle-t="tooltip" title="Elimina dettaglio" class="glyphicon glyphicon-remove text-danger"></a>
-                                <a href="@Url.Action("Edit", "AzioniDetts", new { id = @itemdett.AzioniDett_Id, ut = Request.QueryString["ut"], az = @itemdett.Azioni_Id})" data-toggle-t="tooltip" title="Modifica dettaglio">
+                                <a href="@Url.Action("Edit", "AzioniDetts", new { id = @itemdett.AzioniDett_Id, ut = Request.QueryString["ut"], az = @itemdett.Azioni_Id, tipo=Model.Tipo})" data-toggle-t="tooltip" title="Modifica dettaglio">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                     @if (@itemdett.Aree.Descrizione == "Endfeel" | @itemdett.Aree.Descrizione == "TMT")
                                     {
                                         <span class="text-danger"><strong><em>@itemdett.Aree.Descrizione: </em>@itemdett.Descrizione</strong></span>
-                                        
+
                                     }
                                     else
                                     {
@@ -130,13 +131,6 @@
                     </div>
                 </div>
                 }
-
-        <hr/>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Fatto" class="btn btn-success" />
-                    </div>
-                </div>
             </div>
         }
 

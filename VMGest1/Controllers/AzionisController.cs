@@ -29,6 +29,9 @@ namespace VMGest1.Controllers
         // GET: Azionis/Details/5
         public ActionResult Details(int? id)
         {
+            int ut = Convert.ToInt32(Request.QueryString["ut"]);
+            var utente = db.Anagraficas.Where(u => u.Anagrafica_Id == ut);
+            ViewBag.Utente = utente;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -109,7 +112,7 @@ namespace VMGest1.Controllers
             {
                 db.Entry(azioni).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index", new { id = id, ut = Request.QueryString["ut"] });
+                return RedirectToAction("Details", new { id = id, ut = Request.QueryString["ut"] });
             }
             return View(azioni);
         }
