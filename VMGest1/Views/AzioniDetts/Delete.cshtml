@@ -42,7 +42,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-danger" /> |
-            @Html.ActionLink("Back to List", "Index", "Azionis", new { id = ViewBag.Azione, ut = Request.QueryString["ut"] }, null)
+            @Html.ActionLink("Annulla", "Details", "Azionis", new { id = Model.Azioni_Id, ut = Request.QueryString["ut"] }, new { @class = "btn btn-primary" })
         </div>
     }
 </div>

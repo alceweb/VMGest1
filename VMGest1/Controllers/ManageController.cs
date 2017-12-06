@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using VMGest1.Models;
+using Microsoft.Owin.Security.Cookies;
 
 namespace VMGest1.Controllers
 {
@@ -72,6 +73,8 @@ namespace VMGest1.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+            var tempo = TimeSpan.MaxValue;
+            ViewBag.Tempo = tempo;
             return View(model);
         }
 

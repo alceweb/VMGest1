@@ -23,6 +23,10 @@ namespace VMGest1.Controllers
             return View(db.Anagraficas.OrderBy(c=>c.Cognome).ToList());
         }
 
+        //POST: anagraficas/Index
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
 
         // GET: Anagraficas/Details/5
         public ActionResult Details(int? id)

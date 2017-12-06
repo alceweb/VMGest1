@@ -91,7 +91,7 @@ namespace VMGest1.Controllers
                 azioniDett.Azioni_Id = id;
                 db.AzioniDetts.Add(azioniDett);
                 db.SaveChanges();
-                return RedirectToAction("Edit", "Azionis", new { id = id, ut = Request.QueryString["ut"] });
+                return RedirectToAction("Details", "Azionis", new { id = id, ut = Request.QueryString["ut"] });
             }
 
             ViewBag.Area_Id = new SelectList(db.Arees, "Area_Id", "Descrizione", azioniDett.Area_Id);
@@ -157,7 +157,7 @@ namespace VMGest1.Controllers
                 int az = Convert.ToInt32(Request.QueryString["az"]);
                 db.Entry(azioniDett).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index", "Azionis", new { id = az, ut = Request.QueryString["ut"] });
+                return RedirectToAction("Details", "Azionis", new { id = az, ut = Request.QueryString["ut"] });
             }
             ViewBag.Area_Id = new SelectList(db.Arees, "Area_Id", "Descrizione", azioniDett.Area_Id);
             return View(azioniDett);
@@ -187,7 +187,7 @@ namespace VMGest1.Controllers
             AzioniDett azioniDett = db.AzioniDetts.Find(id);
             db.AzioniDetts.Remove(azioniDett);
             db.SaveChanges();
-            return RedirectToAction("Index", "Azionis", new { id = az, ut = Request.QueryString["ut"] });
+            return RedirectToAction("Details", "Azionis", new { id = az, ut = Request.QueryString["ut"] });
         }
 
         protected override void Dispose(bool disposing)

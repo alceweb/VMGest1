@@ -36,7 +36,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Crea" class="btn btn-primary"/>
-                @Html.ActionLink("Annulla", "Index", "Azionis", new { id = ViewBag.Azione, ut = Request.QueryString["ut"] }, new {@class="btn btn-danger"})
+                @Html.ActionLink("Annulla", "Details", "Azionis", new { id = ViewBag.Azione, ut = Request.QueryString["ut"] }, new {@class="btn btn-danger"})
             </div>
         </div>
     </div>

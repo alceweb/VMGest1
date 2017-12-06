@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using VMGest1.Models;
+using PagedList;
 
 namespace VMGest1.Controllers
 {
@@ -16,14 +17,16 @@ namespace VMGest1.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Azionis
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             int ut = Convert.ToInt32(Request.QueryString["ut"]);
             var azionis = db.Azionis.Where(u=>u.Anagrafica_Id == ut).Include(a => a.Anagrafica).OrderByDescending(a=>a.Data);
             var utente = db.Anagraficas.Where(u => u.Anagrafica_Id == ut);
             ViewBag.Utente = utente;
             ViewBag.AzionisCount = azionis.Count();
-            return View(azionis.ToList());
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            return View(azionis.ToList().ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Azionis/Details/5
@@ -72,7 +75,7 @@ namespace VMGest1.Controllers
                 }
                 else
                 {
-                return RedirectToAction("Edit", new { id = azioni.Azioni_Id, ut = id, tipo=tipo });
+                return RedirectToAction("Details", new { id = azioni.Azioni_Id, ut = id, tipo=tipo });
 
                 }
             }
@@ -116,6 +119,23 @@ namespace VMGest1.Controllers
             }
             return View(azioni);
         }
+
+        // POST: Azionis/EditAgg/5 aggiorna senza cambiare pagina (richiesta Milena 05/128/2016)
+        // Per proteggere da attacchi di overposting, abilitare le proprietà a cui eseguire il binding. 
+        // Per ulteriori dettagli, vedere http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult EditAgg(int id, [Bind(Include = "Azioni_Id,Tipo,Anagrafica_Id,Data,Descrizione,Tmt,Endfeel,Diagnostica,Traumi,Chirurgia,Viscerale,Dentale,Visiva")] Azioni azioni)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(azioni).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Edit", new { id = id, ut = Request.QueryString["ut"] });
+            }
+            return View(azioni);
+        }
+
 
         // GET: Azionis/Edit/5
         public ActionResult EditTmt(int? id)

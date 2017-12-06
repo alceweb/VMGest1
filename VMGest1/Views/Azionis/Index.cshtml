@@ -1,4 +1,6 @@
-﻿@model IEnumerable<VMGest1.Models.Azioni>
+﻿@model PagedList.IPagedList<VMGest1.Models.Azioni>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" />
 
 @{
     ViewBag.Title = "Index";
@@ -19,7 +21,7 @@
     }
     <h3 class="text-danger">Nessuna azione registrata</h3>
 }
-    @*@Se non ha schede procedo*@
+    @*Se non ha schede procedo*@
 
     @foreach (var group in Model.GroupBy(item => item.Anagrafica.Cognome + " " + item.Anagrafica.Nome))
     {
@@ -82,7 +84,7 @@
                                         <a href="@Url.Action("Delete", "AzioniDetts", new { id = @itemdett.AzioniDett_Id, ut = Request.QueryString["ut"], az = @itemdett.Azioni_Id, tipo = item.Tipo })" data-toggle-t="tooltip" title="Elimina dettaglio" class="glyphicon glyphicon-remove text-danger"></a>
                                         <a href="@Url.Action("Edit", "AzioniDetts", new { id = @itemdett.AzioniDett_Id, ut = Request.QueryString["ut"], az = @itemdett.Azioni_Id, tipo=item.Tipo })" data-toggle-t="tooltip" title="Modifica dettaglio">
                                             <span class="glyphicon glyphicon-pencil"></span>
-                                            @if(@itemdett.Aree.Descrizione =="Endfeel" | @itemdett.Aree.Descrizione == "TMT")
+                                            @if(@itemdett.Aree.Descrizione =="ENDFEEL" | @itemdett.Aree.Descrizione == "BLT")
                                             {
                                             <span class="text-danger"><strong><em>@itemdett.Aree.Descrizione: </em>@itemdett.Descrizione</strong></span>
 
@@ -100,27 +102,37 @@
                     </td>
                     @*Fine dettaglio azioni Sezione nascosta*@
                     <td>
-                        <h4>
-                            @*Abilito il tasto elimina se non ci sono dettagli*@
-                            @{
-                                int tot = item.AzioniDetts.Count();
-                                <a role="button" id="@item.Azioni_Id" data-toggle="collapse" title="Vedi dettaglio" href="#@item.Azioni_Id" aria-expanded="false" aria-controls="@item.Azioni_Id">
-                                    <span class="h6">@tot</span><span id="@item.Azioni_Id" class="glyphicon glyphicon-arrow-down"></span>
-                                </a>
-                                <a href="@Url.Action("Create", "AzioniDetts", new { id = @item.Azioni_Id, ut = Request.QueryString["ut"] })" data-toggle-t="tooltip" title="Aggiungi dettaglio" class="glyphicon glyphicon-plus-sign"></a>
-                                if (tot == 0)
-                                {
-                                    <a href="@Url.Action("Delete", "Azionis", new { id = item.Azioni_Id, ut = Request.QueryString["ut"] })" data-toggle-t="tooltip" title="Cancella azione" class="glyphicon glyphicon-remove text-danger"></a>
-                                }
+                        @if (item.Tipo != "Anamnesi")
+                        {
+                            <h4>
+                                @*Abilito il tasto elimina se non ci sono dettagli*@
+                                @{
+                                    int tot = item.AzioniDetts.Count();
+                                    <a role="button" id="@item.Azioni_Id" data-toggle="collapse" title="Vedi dettaglio" href="#@item.Azioni_Id" aria-expanded="false" aria-controls="@item.Azioni_Id">
+                                        <span class="h6">@tot</span><span id="@item.Azioni_Id" class="glyphicon glyphicon-arrow-down"></span>
+                                    </a>
 
-                            }
-                        </h4>
+                                    <a href="@Url.Action("Create", "AzioniDetts", new { id = @item.Azioni_Id, ut = Request.QueryString["ut"], tipo = item.Tipo })" data-toggle-t="tooltip" title="Aggiungi dettaglio" class="glyphicon glyphicon-plus-sign"></a>
+                                    if (tot == 0)
+                                    {
+                                        <a href="@Url.Action("Delete", "Azionis", new { id = item.Azioni_Id, ut = Request.QueryString["ut"] })" data-toggle-t="tooltip" title="Cancella azione" class="glyphicon glyphicon-remove text-danger"></a>
+                                    }
+
+                                }
+                            </h4>
+
+                                    }
                     </td>
                 </tr>
                                 }
         </table>
                                     //Fine azioni
                                 }
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new {ut = Request.QueryString["ut"], page}))
 
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
