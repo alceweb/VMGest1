@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using VMGest1.Models;
 using PagedList;
+using System.Web.Helpers;
 
 namespace VMGest1.Controllers
 {
@@ -60,7 +61,7 @@ namespace VMGest1.Controllers
         // Per ulteriori dettagli, vedere http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Create(int id, [Bind(Include = "Azioni_Id,Tipo,Anagrafica_Id,Data,Descrizione,Tmt,Endfeel,Diagnostica,Traumi,Chirurgia,Viscerale,Dentale,Visiva")] Azioni azioni, Aree aree)
+        public ActionResult Create(int id, [Bind(Include = "Azioni_Id,Tipo,Anagrafica_Id,Descrizione,Data,Tmt,Endfeel,Diagnostica,Traumi,Chirurgia,Viscerale,Dentale,Visiva")] Azioni azioni)
         {
             if (ModelState.IsValid)
             {
@@ -79,11 +80,30 @@ namespace VMGest1.Controllers
 
                 }
             }
-
-            ViewBag.Anagrafica_Id = new SelectList(db.Anagraficas, "Anagrafica_Id", "Nome", azioni.Anagrafica_Id);
-            ViewBag.Area_Id = new SelectList(db.Arees, "Area_Id", "Descrizione", aree.Area_Id);
+            var utente = db.Anagraficas.Where(u => u.Anagrafica_Id == id);
+            ViewBag.Utente = utente;
             return View(azioni);
         }
+        //Questo serve per risolvere il problema di inserimento di Milena- aggiornamento non voluto della pagina con conseguente perdida del testo inserito 
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Create1(int id, [Bind(Include = "Azioni_Id,Tipo,Anagrafica_Id,Descrizione,Data,Tmt,Endfeel,Diagnostica,Traumi,Chirurgia,Viscerale,Dentale,Visiva")] Azioni azioni)
+        {
+           string tipo = Request.QueryString["tipo"];
+           if (ModelState.IsValid)
+            {
+                azioni.Anagrafica_Id = id;
+                azioni.Tipo = tipo;
+                azioni.Data = DateTime.Now;
+                db.Azionis.Add(azioni);
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id = azioni.Azioni_Id, ut = id, tipo = tipo });
+            }
+            var utente = db.Anagraficas.Where(u => u.Anagrafica_Id == id);
+            ViewBag.Utente = utente;
+            return RedirectToAction("Details", new { id = azioni.Azioni_Id, ut = id, tipo = tipo });
+        }
+
 
         // GET: Azionis/Edit/5
         public ActionResult Edit(int? id)
@@ -109,8 +129,10 @@ namespace VMGest1.Controllers
         // Per ulteriori dettagli, vedere http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit(int id,[Bind(Include = "Azioni_Id,Tipo,Anagrafica_Id,Data,Descrizione,Tmt,Endfeel,Diagnostica,Traumi,Chirurgia,Viscerale,Dentale,Visiva")] Azioni azioni)
+        public ActionResult Edit(int id,[Bind(Include = "Azioni_Id,Tipo,Anagrafica_Id,Data,Tmt,Endfeel,Diagnostica,Traumi,Chirurgia,Viscerale,Dentale,Visiva", Exclude ="Descrizione")] Azioni azioni)
         {
+            FormCollection collection = new FormCollection(Request.Unvalidated().Form);
+            azioni.Descrizione = collection["Descrizione"];
             if (ModelState.IsValid)
             {
                 db.Entry(azioni).State = EntityState.Modified;

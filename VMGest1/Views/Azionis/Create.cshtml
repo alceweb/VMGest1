@@ -37,7 +37,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Descrizione, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Descrizione, new {@class = "ckeditor" })
+                @Html.EditorFor(model => model.Descrizione, new { @class = "ckeditor" })
                 @Html.ValidationMessageFor(model => model.Descrizione, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -84,8 +84,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Crea" class="btn btn-primary" />
-                @Html.ActionLink("Annulla", "Index", new { id = Request.QueryString["ut"], ut = Request.QueryString["ut"] }, new {@class="btn btn-danger" })
+                <input type="submit" value="Crea" class="btn btn-primary pu" />
+                @Html.ActionLink("Annulla", "Index", new { id = Request.QueryString["ut"], ut = Request.QueryString["ut"] }, new {@class="btn btn-danger pull-right" })
             </div>
         </div>
     </div>
@@ -94,11 +94,5 @@
 <div>
 </div>
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
-
-            //$('.datepicker').datepicker({ dateFormat: "dd/MM/yyyy", autoclose: true, todayHighlight: true, todayBtn: true });
-
-    </script>
 
 }

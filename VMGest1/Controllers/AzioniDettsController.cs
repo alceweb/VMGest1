@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using VMGest1.Models;
+using System.Web.Helpers;
 
 namespace VMGest1.Controllers
 {
@@ -48,7 +49,7 @@ namespace VMGest1.Controllers
             {
              var aree = db.Arees.Where(a=>a.Trattamento==true).OrderBy(a=>a.Descrizione);
                 ViewBag.AreeCount = aree.Count();
-                ViewBag.Area_Id = new SelectList(aree, "Area_Id", "Descrizione");
+                ViewBag.Area_Id = new SelectList(aree, "Area_Id", "Descrizione", 1);
             }
             else
             {
@@ -84,8 +85,11 @@ namespace VMGest1.Controllers
         // Per ulteriori dettagli, vedere http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int id, [Bind(Include = "AzioniDett_Id,Area_Id,Descrizione,Azioni_Id")] AzioniDett azioniDett)
+        public ActionResult Create(int id, [Bind(Include = "AzioniDett_Id,Area_Id,Azioni_Id", Exclude ="Descrizione")] AzioniDett azioniDett)
         {
+            FormCollection collection = new FormCollection(Request.Unvalidated().Form);
+            azioniDett.Descrizione = collection["Descrizione"];
+
             if (ModelState.IsValid)
             {
                 azioniDett.Azioni_Id = id;
@@ -150,8 +154,10 @@ namespace VMGest1.Controllers
         // Per ulteriori dettagli, vedere http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AzioniDett_Id,Area_Id,Descrizione,Azioni_Id")] AzioniDett azioniDett)
+        public ActionResult Edit([Bind(Include = "AzioniDett_Id,Area_Id,Azioni_Id", Exclude ="Descrizione")] AzioniDett azioniDett)
         {
+            FormCollection collection = new FormCollection(Request.Unvalidated().Form);
+            azioniDett.Descrizione = collection["Descrizione"];
             if (ModelState.IsValid)
             {
                 int az = Convert.ToInt32(Request.QueryString["az"]);
